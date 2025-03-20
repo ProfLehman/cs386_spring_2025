@@ -1,18 +1,19 @@
 
-### **📅 Week 1, Session 1: Dart Basics & DartPad Intro (Expanded with More Examples)**
+# 📅 Week 1, Session 1: Dart Basics & DartPad Intro
 
 🎯 **Objective:** Understand Dart's syntax, data types, and basic control structures through hands-on examples and comparisons with Python.
 
 ---
 
-## **1️⃣ Introduction to Dart & DartPad (5 min)**
+## 1️⃣ Introduction to Dart & DartPad (5 min)
 
 - **What is Dart?**
     
     - Developed by Google for building mobile, web, and server applications.
     - **Strongly typed** (unlike Python, which is dynamically typed).
     - Used in **Flutter** to create fast and efficient UI applications.
-- **DartPad Setup** (💡 No installation needed! Run Dart code online at [dartpad.dev](https://dartpad.dev/)).
+- **DartPad** (💡 No installation needed! Run Dart code online at [dartpad.dev](https://dartpad.dev/)).
+- **Replit.com** (💡 No installation needed! Run Dart code online at [replit.com](https://replit.com/)).
     
 - **Basic Syntax Overview**
     
