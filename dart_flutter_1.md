@@ -5,13 +5,15 @@
 
 ---
 
-## 1️⃣ Introduction to Dart & DartPad (5 min)
+## 1️⃣ Introduction to Dart & DartPad
 
 - **What is Dart?**
     
     - Developed by Google for building mobile, web, and server applications.
     - **Strongly typed** (unlike Python, which is dynamically typed).
     - Used in **Flutter** to create fast and efficient UI applications.
+  
+- **Dart** (💡 Dart Language Overview and Resources ([Dart](https://dart.dev/overview))
 - **DartPad** (💡 No installation needed! Run Dart code online at [dartpad.dev](https://dartpad.dev/)).
 - **Replit.com** (💡 No installation needed! Run Dart code online at [replit.com](https://replit.com/)).
     
@@ -30,7 +32,7 @@
 
 ---
 
-## **2️⃣ Variables & Data Types (10 min)**
+## **2️⃣ Variables & Data Types**
 
 ### **💡 Example 1: Declaring Variables**
 
@@ -86,7 +88,7 @@ void main() {
 
 ---
 
-## **3️⃣ Lists & Maps (10 min)**
+## **3️⃣ Lists & Maps**
 
 ### **💡 Example 3: Lists in Dart (Similar to Python Lists)**
 
@@ -138,7 +140,7 @@ print(f"All Ages: {ages}")
 
 ---
 
-## **4️⃣ Control Flow Statements (10 min)**
+## **4️⃣ Control Flow Statements**
 
 ### **💡 Example 5: If-Else Statements**
 
@@ -207,7 +209,7 @@ while i <= 5:
 
 ---
 
-## **5️⃣ Functions (10 min)**
+## **5️⃣ Functions**
 
 ### **💡 Example 7: Simple Function**
 
@@ -255,33 +257,24 @@ print(f"Sum: {sum}")
 
 ---
 
-## **6️⃣ Hands-on Exercise (10 min)**
-
-**📝 Quick Coding Tasks for Students**
-
-1. **Write a Dart function** that takes a number and returns whether it's even or odd.
-2. **Modify Example 3**: Create a `List<int>` and print only the even numbers using a loop.
-3. **Write a function** that converts a temperature from **Celsius to Fahrenheit**.
-
----
-
-## **7️⃣ Wrap-up & Homework (5 min)**
-
+### **6️⃣ 📌 Key Takeaways from Session 1**
 ✅ **Recap Key Concepts**: Variables, Lists, Maps, Loops, Functions  
-🏡 **Outside Work:**
-
-- Modify the function to handle **negative temperatures**.
-- Write a Dart function that takes a list of numbers and returns the **largest number**.
-
----
-
-### **📌 Key Takeaways from Session 1**
-
 ✅ Dart is **strongly typed** (unlike Python).  
 ✅ Lists (`List<int>`), Maps (`Map<String, int>`) require **explicit types**.  
 ✅ Functions use `void` (no return) or a **specific return type**.  
 ✅ Loops (`for`, `while`) are similar to Python but use `{}`.
 
 🚀 **Next Session:** Object-Oriented Programming & Async in Dart!
+
+---
+## ** Homework - Part A. - Due: Friday 3/28**
+
+Complete following and place code in file **part1.dart**.  Add filename, your name, date, description to comments at top of file. Clearly label each problem. You can use AI, but make sure you edit responses to match your understanding ie. may need to fine-tune or simplify approach to make sure you understand and can explain any code submitted.
+
+1. **Write and test a Dart function** that takes a number and returns whether it's even or odd.
+2. **Write and test a Dart function** that converts a temperature from **Celsius to Fahrenheit** printing the result to two decimal places. Note: this function does not return a value.
+3. **Create a Dart `List<int>`**, add ten random numbers to the list, and then print only the even numbers (ie. divisible by 2) using a loop.
+4. **Write and test a Dart function** called **getLargest** that takes a list of numbers and returns the **largest number**. 
+-- end --
 
 ---
