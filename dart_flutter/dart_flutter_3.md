@@ -366,9 +366,9 @@ result_label = Label(root, text="Converted Amount: 0.00 CAD")
 
 ---
 
-##Generic IPO Example
+## Generic IPO Example
 
-See [IPO template example](IPO_template.md)
+See **IPO template example.md** posted on GitHub.
 
 ---
 🚀 **Next Session:** More Flutter Basics
@@ -382,5 +382,6 @@ See [IPO template example](IPO_template.md)
 3. Add a label to display the results of your calculation
 4. Add a clear button to clear your input textbox and output label
 3. Place code in file **part3.dart**.  Add filename, your name, date, description to comments at top of file.
+
 -- end --
 
