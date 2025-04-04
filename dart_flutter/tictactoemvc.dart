@@ -1,146 +1,217 @@
+
+// TicTacToeMVC.dart
+// Converted from Python to Dart
+// Original Python by prof. lehman, 2025
+
+// TicTacToeModel.dart
+// Updated for DartPad use with fixed display formatting
+// and removed use of stdout ... using print for DartPad
+//
+// Uses the Model View Controller approach
+//
+
 import 'package:flutter/material.dart';
 
-void main() => runApp(TicTacToeApp());
 
-/// === MODEL ===
-class GameModel {
-  final List<List<String>> board;
-  final String turn;
-  final String winner;
+//main
+void main() {
+  runApp(TicTacToeApp());
+}
 
-  GameModel({
-    required this.board,
-    required this.turn,
-    required this.winner,
-  });
+/*
+void main()
+{
+  
+  TicTacToeModel test = TicTacToeModel();
+  test.resetGame();
+  test.displayGame();
+  
+  test.playXO(test.getTurn(), 1, 1);
+  
+  test.displayGame();
+}
 
-  factory GameModel.initial() {
-    return GameModel(
-      board: List.generate(3, (_) => List.generate(3, (_) => ' ')),
-      turn: 'X',
-      winner: 'N',
-    );
+*/
+
+
+//-------------------------------------------
+//// model
+//-------------------------------------------
+
+class TicTacToeModel {
+  List<List<String>> board;
+  String turn;
+  String winner;
+
+  TicTacToeModel()
+      : board = List.generate(3, (_) => List.generate(3, (_) => ' ')),
+        turn = 'X',
+        winner = 'N';
+
+  void resetGame() {
+    board = List.generate(3, (_) => List.generate(3, (_) => ' '));
+    turn = 'X';
+    winner = 'N';
   }
 
-  bool get isGameOver => winner != 'N' || _isBoardFull();
-
-  bool _isBoardFull() {
-    return board.every((row) => row.every((cell) => cell != ' '));
+  String getTurn() {
+    return turn;
   }
 
-  GameModel copyWith({
-    List<List<String>>? board,
-    String? turn,
-    String? winner,
-  }) {
-    return GameModel(
-      board: board ?? this.board,
-      turn: turn ?? this.turn,
-      winner: winner ?? this.winner,
-    );
+  String getWinner() {
+    return winner;
+  }
+
+  String getBoardValue(int r, int c) {
+    if (r >= 0 && r <= 2 && c >= 0 && c <= 2) {
+      return board[r][c];
+    } else {
+      return 'E'; // Error
+    }
+  }
+
+  void playXO(String xo, int r, int c) {
+    if (r < 0 || r > 2 || c < 0 || c > 2) {
+      print("Error: ($r, $c) is an invalid board position. Use 0-2, 0-2.");
+    } else {
+      if (turn == xo) {
+        if (board[r][c] == ' ') {
+          board[r][c] = xo;
+          turn = (turn == 'X') ? 'O' : 'X';
+          isGameOver(); // Check if game ended
+        } else {
+          print("Error: Spot is already taken.");
+        }
+      } else {
+        print("Error: Hey, not your turn $xo.");
+      }
+    }
+  }
+
+  void displayGame() {
+    print("");
+    for (int r = 0; r < 3; r++) {
+      String row = '';
+      for (int c = 0; c < 3; c++) {
+        row += ' ${board[r][c]} ';
+        if (c < 2) row += '|';
+      }
+      print(row);
+      if (r < 2) print('---|---|---');
+    }
+  }
+
+  bool isGameOver() {
+    bool over = false;
+
+    List<int> xpos = [
+      0, 0, 0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2
+    ];
+    List<int> ypos = [
+      0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 2, 1, 0
+    ];
+
+    for (int w = 0; w < xpos.length - 2; w += 3) {
+      String a = board[xpos[w]][ypos[w]];
+      String b = board[xpos[w + 1]][ypos[w + 1]];
+      String c = board[xpos[w + 2]][ypos[w + 2]];
+      if (a == b && b == c && a != ' ') {
+        over = true;
+        winner = a;
+        return over;
+      }
+    }
+
+    // Check for tie
+    over = true;
+    for (int r = 0; r < 3; r++) {
+      for (int c = 0; c < 3; c++) {
+        if (board[r][c] != 'X' && board[r][c] != 'O') {
+          over = false;
+          break;
+        }
+      }
+      if (!over) break;
+    }
+
+    return over;
   }
 }
 
-/// === UPDATE ===
-GameModel update(GameModel model, Message msg) {
-  if (msg is Reset) return GameModel.initial();
+//-------------------------------------------
+/// === CONTROLLER ===
+//-------------------------------------------
 
-  if (msg is CellTapped && !model.isGameOver) {
-    final r = msg.row;
-    final c = msg.col;
+class TicTacToeController {
+  final TicTacToeModel model;
+  final void Function() onUpdate;
 
-    if (model.board[r][c] != ' ') return model; // Already filled
+  TicTacToeController(this.model, this.onUpdate);
 
-    // Copy board and play move
-    final newBoard = model.board.map((row) => [...row]).toList();
-    newBoard[r][c] = model.turn;
-
-    // Check winner
-    final newWinner = checkWinner(newBoard);
-
-    return model.copyWith(
-      board: newBoard,
-      turn: model.turn == 'X' ? 'O' : 'X',
-      winner: newWinner,
-    );
+  void handleSelection(int row, int col) {
+    if (!model.isGameOver()) {
+      model.playXO(model.getTurn(), row, col);
+      onUpdate();
+    }
   }
 
-  return model;
-}
-
-String checkWinner(List<List<String>> board) {
-  const lines = [
-    // rows
-    [ [0,0], [0,1], [0,2] ],
-    [ [1,0], [1,1], [1,2] ],
-    [ [2,0], [2,1], [2,2] ],
-    // cols
-    [ [0,0], [1,0], [2,0] ],
-    [ [0,1], [1,1], [2,1] ],
-    [ [0,2], [1,2], [2,2] ],
-    // diagonals
-    [ [0,0], [1,1], [2,2] ],
-    [ [0,2], [1,1], [2,0] ],
-  ];
-
-  for (var line in lines) {
-    final a = board[line[0][0]][line[0][1]];
-    final b = board[line[1][0]][line[1][1]];
-    final c = board[line[2][0]][line[2][1]];
-    if (a != ' ' && a == b && b == c) return a;
+  void resetGame() {
+    model.resetGame();
+    onUpdate();
   }
 
-  return 'N'; // No winner yet
+  String getStatus() {
+    if (model.isGameOver()) {
+      String winner = model.getWinner();
+      return winner == 'N' ? 'Cat Wins!' : '$winner Wins!';
+    } else {
+      return "Player ${model.getTurn()}'s turn";
+    }
+  }
+
+  String getCell(int row, int col) => model.getBoardValue(row, col);
 }
 
-/// === MESSAGES ===
-abstract class Message {}
-class CellTapped extends Message {
-  final int row, col;
-  CellTapped(this.row, this.col);
-}
-class Reset extends Message {}
 
-/// === VIEW ===
+
+//-------------------------------------------
+/// === VIEW / UI ===
+//-------------------------------------------
 class TicTacToeApp extends StatefulWidget {
   @override
   _TicTacToeAppState createState() => _TicTacToeAppState();
 }
 
 class _TicTacToeAppState extends State<TicTacToeApp> {
-  GameModel model = GameModel.initial();
+  late TicTacToeModel model;
+  late TicTacToeController controller;
 
-  void dispatch(Message msg) {
-    setState(() {
-      model = update(model, msg);
-    });
+  @override
+  void initState() {
+    super.initState();
+    model = TicTacToeModel();
+    controller = TicTacToeController(model, () => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    String status;
-    if (model.winner != 'N') {
-      status = '${model.winner} Wins!';
-    } else if (model.isGameOver) {
-      status = 'Cat Wins!';
-    } else {
-      status = "Player ${model.turn}'s turn";
-    }
-
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Tic Tac Toe MVU')),
+        appBar: AppBar(title: Text('Tic Tac Toe MVC')),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(status, style: TextStyle(fontSize: 24)),
+            Text(
+              controller.getStatus(),
+              style: TextStyle(fontSize: 24),
+            ),
             SizedBox(height: 20),
             _buildBoard(),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => dispatch(Reset()),
+              onPressed: controller.resetGame,
               child: Text('Reset Game'),
-            ),
+            )
           ],
         ),
       ),
@@ -149,19 +220,20 @@ class _TicTacToeAppState extends State<TicTacToeApp> {
 
   Widget _buildBoard() {
     return Column(
-      children: List.generate(3, (r) {
+      children: List.generate(3, (row) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(3, (c) {
+          children: List.generate(3, (col) {
             return Padding(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4.0),
               child: ElevatedButton(
-                onPressed: model.isGameOver || model.board[r][c] != ' '
-                    ? null
-                    : () => dispatch(CellTapped(r, c)),
-                style: ElevatedButton.styleFrom(minimumSize: Size(80, 80)),
+                onPressed: () => controller.handleSelection(row, col),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(80, 80),
+                  backgroundColor: Colors.blue.shade100,
+                ),
                 child: Text(
-                  model.board[r][c],
+                  controller.getCell(row, col),
                   style: TextStyle(fontSize: 32),
                 ),
               ),
@@ -172,3 +244,10 @@ class _TicTacToeAppState extends State<TicTacToeApp> {
     );
   }
 }
+
+
+//-- end --
+
+
+
+
