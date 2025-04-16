@@ -1,4 +1,6 @@
 # 📘 CS 386 Final Project Requirements
+![CS 386 Logo](CS_386_Logo_Spring_2025.jpg)
+
 **Course Project Presentation:**  
 🗓️ **Wednesday, April 30th**  
 🕥 **10:30 AM** (during the final exam session)
@@ -6,16 +8,16 @@
 ---
 
 ## 🔍 Project Overview
-Each student will design and build a functional application—**web**, **desktop**, or **mobile**—that integrates the key concepts covered in this course. Your project must demonstrate both **technical competency** and **good software design practices**.
+Each student will design and build a functional application—**web**, **desktop**, or **mobile**—that integrates the key concepts covered in this course. Your project must demonstrate both **technical competency** and **good software design practices**. 
 
-You may use **either Dart/Flutter or Python** as your development language.
+**AI may be used** to generate code. Use of AI must be included in project documentation. Must be able to describe the purpose and functionality of all code submitted.
 
 ---
 
 ## ✅ Required Features
 
 ### 1. **Language & Platform**
-- ✅ You may choose **Python** or **Dart/Flutter**.
+- ✅ You may choose either **Python** or **Dart/Flutter**.
 
 
 ### 2. **Object-Oriented Design**
@@ -80,6 +82,8 @@ It must contain:
            + fromJson()
          }
        ```
+    - **Optional** Show the class interactions (see diagram at bottom of page)
+      
 3. ✅ **Instructions** (2 or 3 paragraphs)
    - How to install and run the app.
    - How to use key features (add screenshots or GIFs if helpful).
@@ -116,5 +120,60 @@ It must contain:
 - Share two challenges or insights.
 
 ---
--- end requirements --
+## (Optional) Class Diagram and Interactions (mermaid)
+
+```mermaid
+classDiagram
+    class Person {
+        +String name
+        +String phoneNumber
+        +String email
+        +toString()
+        +printInfo()
+    }
+
+    class PersonList {
+        -List~Person~ _people
+        +List~Person~ people
+        +int length
+        +getPersonAt(index)
+        +addPerson(person)
+        +removePersonAt(index)
+        +updatePersonAt(index, person)
+        +printAll()
+        +toString()
+    }
+
+    class MyApp {
+        +build(context)
+    }
+
+    class PersonListPage {
+        +State createState()
+    }
+
+    class _PersonListPageState {
+        -PersonList personList
+        +initState()
+        +build(context)
+    }
+
+    class PersonDetailPage {
+        -Person person
+        +build(context)
+    }
+
+    PersonList --> Person
+    _PersonListPageState --> PersonList
+    _PersonListPageState --> Person
+    PersonListPage --> _PersonListPageState
+    MyApp --> PersonListPage
+    PersonDetailPage --> Person
+```
+
 ---
+
+-- end --
+
+---
+
