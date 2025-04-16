@@ -1,5 +1,5 @@
 # 📘 CS 386 Final Project Requirements
-![CS 386 Logo](CS_386_Logo_Spring_2025.jpg)
+![CS 386 Logo](CS_386_Logo_Spring_2025.png)
 
 **Course Project Presentation:**  
 🗓️ **Wednesday, April 30th**  
